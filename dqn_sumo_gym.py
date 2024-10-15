@@ -100,7 +100,7 @@ class Agent(object):
 		self.tau = 10#0.005 # update after 30 episodes
 		self.lr = 1e-4
 		self.n_actions = 5
-		self.n_observations = 22
+		self.n_observations = 31  #这个要改
 
 		self.hp = hp  # 新增，用于保存超参数
 		log_dir = os.path.join("runs", hp)  # 新增，根据超参数创建独特的日志文件夹

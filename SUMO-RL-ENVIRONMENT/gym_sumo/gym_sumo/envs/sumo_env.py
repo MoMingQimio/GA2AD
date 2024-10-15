@@ -17,39 +17,66 @@ else:
 import traci
 import sumolib
 
-## add each lane density and mean_speed ##
-state_space_high_for_norm = np.array([c.RL_MAX_SPEED_LIMIT,c.RL_ACC_RANGE,c.HEADING_ANGLE,c.RL_SENSING_RADIUS,c.RL_MAX_SPEED_LIMIT,c.RL_ACC_RANGE,c.RL_SENSING_RADIUS,c.RL_MAX_SPEED_LIMIT,c.RL_ACC_RANGE,c.RL_SENSING_RADIUS,c.RL_MAX_SPEED_LIMIT,c.RL_ACC_RANGE
-		,c.RL_MAX_SPEED_LIMIT,c.MAX_LANE_DENSITY,c.RL_MAX_SPEED_LIMIT,c.MAX_LANE_DENSITY,c.RL_MAX_SPEED_LIMIT,c.MAX_LANE_DENSITY,c.RL_MAX_SPEED_LIMIT,c.MAX_LANE_DENSITY,c.RL_MAX_SPEED_LIMIT,c.MAX_LANE_DENSITY])
-def creat_observation():
-	state_space_list = ['ego_speed','ego_acc','ego_dis_to_leader','leader_speed','leader_acc','dis_to_left_leader','left_leader_speed','left_leader_acc',
-	'dis_to_right_leader','right_leader_speed','right_leader_acc']
-	for i in range(c.NUM_OF_LANES):
-		state_space_list.append("lane_"+str(i)+"_mean_speed")
-		state_space_list.append("lane_"+str(i)+"_density")
+state_space_list = ['ego_speed','ego_acc','ego_heading_angle',
+						'ego_dis_to_leader','leader_speed','leader_acc',
+						'ego_dis_to_follower', 'follower_speed', 'follower_acc',
+						'dis_to_left_leader','left_leader_speed','left_leader_acc',
+						'dis_to_right_leader','right_leader_speed','right_leader_acc',
+						'dis_to_left_follower','left_follower_speed','left_follower_acc',
+						'dis_to_right_follower','right_follower_speed','right_follower_acc'
+						]
+for i in range(c.NUM_OF_LANES):
+	state_space_list.append("lane_"+str(i)+"_mean_speed")
+	state_space_list.append("lane_"+str(i)+"_density")
 	#print(state_space_list)
+state_space_high_for_norm = np.array([c.RL_MAX_SPEED_LIMIT,c.RL_ACC_RANGE,c.HEADING_ANGLE,
+									  c.RL_SENSING_RADIUS,c.RL_MAX_SPEED_LIMIT,c.RL_ACC_RANGE,
+									  c.RL_SENSING_RADIUS,c.RL_MAX_SPEED_LIMIT,c.RL_ACC_RANGE,
+									  c.RL_SENSING_RADIUS,c.RL_MAX_SPEED_LIMIT,c.RL_ACC_RANGE,
+									  c.RL_SENSING_RADIUS,c.RL_MAX_SPEED_LIMIT,c.RL_ACC_RANGE,
+									  c.RL_SENSING_RADIUS,c.RL_MAX_SPEED_LIMIT,c.RL_ACC_RANGE,
+									  c.RL_SENSING_RADIUS,c.RL_MAX_SPEED_LIMIT,c.RL_ACC_RANGE,
+									  c.RL_MAX_SPEED_LIMIT,c.MAX_LANE_DENSITY,
+									  c.RL_MAX_SPEED_LIMIT,c.MAX_LANE_DENSITY,
+									  c.RL_MAX_SPEED_LIMIT,c.MAX_LANE_DENSITY])
+def create_observation():
 
-	state_space_low = np.array([c.RL_MIN_SPEED_LIMIT,-c.RL_DCE_RANGE,-c.HEADING_ANGLE,-c.RL_SENSING_RADIUS,c.RL_MIN_SPEED_LIMIT,-c.RL_DCE_RANGE,-c.RL_SENSING_RADIUS,c.RL_MIN_SPEED_LIMIT,-c.RL_DCE_RANGE,-c.RL_SENSING_RADIUS,c.RL_MIN_SPEED_LIMIT,-c.RL_DCE_RANGE
-		,c.RL_MIN_SPEED_LIMIT,c.MIN_LANE_DENSITY,c.RL_MIN_SPEED_LIMIT,c.MIN_LANE_DENSITY,c.RL_MIN_SPEED_LIMIT,c.MIN_LANE_DENSITY,c.RL_MIN_SPEED_LIMIT,c.MIN_LANE_DENSITY,c.RL_MIN_SPEED_LIMIT,c.MIN_LANE_DENSITY])
-	state_space_high = np.array([c.RL_MAX_SPEED_LIMIT,c.RL_ACC_RANGE,c.HEADING_ANGLE,c.RL_SENSING_RADIUS,c.RL_MAX_SPEED_LIMIT,c.RL_ACC_RANGE,c.RL_SENSING_RADIUS,c.RL_MAX_SPEED_LIMIT,c.RL_ACC_RANGE,c.RL_SENSING_RADIUS,c.RL_MAX_SPEED_LIMIT,c.RL_ACC_RANGE
-		,c.RL_MAX_SPEED_LIMIT,c.MAX_LANE_DENSITY,c.RL_MAX_SPEED_LIMIT,c.MAX_LANE_DENSITY,c.RL_MAX_SPEED_LIMIT,c.MAX_LANE_DENSITY,c.RL_MAX_SPEED_LIMIT,c.MAX_LANE_DENSITY,c.RL_MAX_SPEED_LIMIT,c.MAX_LANE_DENSITY])
+	state_space_low = np.array([c.RL_MIN_SPEED_LIMIT,-c.RL_DCE_RANGE,-c.HEADING_ANGLE,
+								-c.RL_SENSING_RADIUS,c.RL_MIN_SPEED_LIMIT,-c.RL_DCE_RANGE,
+								-c.RL_SENSING_RADIUS,c.RL_MIN_SPEED_LIMIT,-c.RL_DCE_RANGE,
+								-c.RL_SENSING_RADIUS,c.RL_MIN_SPEED_LIMIT,-c.RL_DCE_RANGE,
+								-c.RL_SENSING_RADIUS, c.RL_MIN_SPEED_LIMIT, -c.RL_DCE_RANGE,
+								-c.RL_SENSING_RADIUS, c.RL_MIN_SPEED_LIMIT, -c.RL_DCE_RANGE,
+								-c.RL_SENSING_RADIUS, c.RL_MIN_SPEED_LIMIT, -c.RL_DCE_RANGE,
+								c.RL_MIN_SPEED_LIMIT,c.MIN_LANE_DENSITY,
+								c.RL_MIN_SPEED_LIMIT,c.MIN_LANE_DENSITY,
+								c.RL_MIN_SPEED_LIMIT,c.MIN_LANE_DENSITY
+								])
+
+	state_space_high = np.array([c.RL_MAX_SPEED_LIMIT,c.RL_ACC_RANGE,c.HEADING_ANGLE,
+								 c.RL_SENSING_RADIUS,c.RL_MAX_SPEED_LIMIT,c.RL_ACC_RANGE,
+								 c.RL_SENSING_RADIUS,c.RL_MAX_SPEED_LIMIT,c.RL_ACC_RANGE,
+								 c.RL_SENSING_RADIUS,c.RL_MAX_SPEED_LIMIT,c.RL_ACC_RANGE,
+								 c.RL_SENSING_RADIUS, c.RL_MAX_SPEED_LIMIT, c.RL_ACC_RANGE,
+								 c.RL_SENSING_RADIUS, c.RL_MAX_SPEED_LIMIT, c.RL_ACC_RANGE,
+								 c.RL_SENSING_RADIUS, c.RL_MAX_SPEED_LIMIT, c.RL_ACC_RANGE,
+								 c.RL_MAX_SPEED_LIMIT,c.MAX_LANE_DENSITY,
+								 c.RL_MAX_SPEED_LIMIT,c.MAX_LANE_DENSITY,
+								 c.RL_MAX_SPEED_LIMIT,c.MAX_LANE_DENSITY
+								 ])
     #与state_space_high_for_norm完全一致
 
 	obs = spaces.Box(low=state_space_low,high=state_space_high,dtype=np.float64)
-	#
 	# A (possibly unbounded) box in R^n. Specifically, a Box represents the
     # Cartesian product of n closed intervals. Each interval has the form of one
     # of [a, b], (-oo, b], [a, oo), or (-oo, oo).
-	#
     # There are two common use cases:
-	#
     # * Identical bound for each dimension::
     #     >>> Box(low=-1.0, high=2.0, shape=(3, 4), dtype=np.float32)
     #     Box(3, 4)
-	#
     # * Independent bound for each dimension::
     #     >>> Box(low=np.array([-1.0, -2.0]), high=np.array([2.0, 4.0]), dtype=np.float32)
     #     Box(2,)
-	#
 
 	return obs
 
@@ -81,7 +108,7 @@ class SumoEnv(gym.Env):
 			>>> Discrete(2)            # {0, 1}
 			>>> Discrete(3, start=-1)  # {-1, 0, 1}
 		"""
-		self.observation_space = creat_observation()
+		self.observation_space = create_observation()
 		self.seed = seed
 
 		## class variable
@@ -96,6 +123,9 @@ class SumoEnv(gym.Env):
 		self.w1 = c.W1 # efficiency coefficient
 		self.w2 = c.W2 # collision coefficient
 		self.w3 = c.W3 # lane change coefficient
+
+
+
 
 		self.p1 = p1
 		self.p2 = p2
@@ -138,9 +168,18 @@ class SumoEnv(gym.Env):
 		if self.render_mode == "human":
 			sumoBinary = "sumo-gui" if isGui else "sumo"
 
-		sumoCmd = [sumoBinary, "-c", "SUMO-RL-ENVIRONMENT/gym_sumo/gym_sumo/envs/xml_files/test.sumocfg","--lateral-resolution","3.2",
-		 "--start", "true", "--quit-on-end", "true","--no-warnings","True", "--no-step-log", "True", "--step-length",str(c.STEP_LENGTH),
-		 "--random","false"]
+		sumoCmd = [sumoBinary,
+				   "-c", "SUMO-RL-ENVIRONMENT/gym_sumo/gym_sumo/envs/xml_files/test.sumocfg",
+				   "--lateral-resolution","3.2",
+				   "--start", "true",
+				   "--quit-on-end", "true",
+				   "--no-warnings","True",
+				   "--no-step-log", "True",
+				   "--step-length",str(c.STEP_LENGTH),
+				   "--random","false",
+				   "--collision.mingap-factor","0.0",
+				   "--collision.action","warn",
+				   "--collision.stoptime","2",]
 		# -c < FILE >
 		# --configuration - file < FILE >
 		# Loads the named config on startup
@@ -226,6 +265,29 @@ class SumoEnv(gym.Env):
 				min_dis = dis
 		return (current_leader, min_dis)
 
+
+	def _getCloseFollower(self, followers):
+		"""
+		获取距离最近的领导车辆信息。
+
+		参数：
+			leaders (list): 领导车辆列表，包含车辆ID和距离。
+
+		返回：
+			tuple: 最近的领导车辆ID和距离。
+		"""
+		if len(followers) <= 0:
+			return "", -1
+		min_dis = float('inf')
+		current_follower = None,
+		for follower in followers:
+			follower_id, dis = follower
+			if dis < min_dis:
+				current_follower = follower_id
+				min_dis = dis
+		return (current_follower, min_dis)
+
+
 	def _getLaneDensity(self):
 		"""
 	    获取每个车道的车辆密度和平均速度。
@@ -257,58 +319,94 @@ class SumoEnv(gym.Env):
 			np.array: 随机观测值数组。
 		"""
 		return np.array(self.observation_space.sample())
+
 	def _get_observation(self):
 		"""
-		获取当前观测值。
+        This method is used to get the current observation from the SUMO simulator.
+        It checks whether the ego vehicle (the vehicle controlled by the agent) is running,
+        and if not, it returns a random observation. Otherwise, it retrieves various pieces
+        of information about the ego vehicle and its surroundings from the SUMO simulator,
+        and returns them as an observation.
 
-		参数：
-			无
-
-		返回：
-			np.array: 当前观测值数组。
-		"""
-		if self._isEgoRunning()==False:
+        Returns:
+            np.array: An array of the current observation if the ego vehicle is running,
+                      otherwise a random observation.
+        """
+		# Check if the ego vehicle is running
+		if self._isEgoRunning() == False:
 			return self._get_rand_obs()
+
+		# Get the lane index and position of the ego vehicle
 		self.x = traci.vehicle.getLaneIndex(self.ego)
-		self.y = traci.vehicle.getLanePosition(self.ego)/ c.RL_SENSING_RADIUS
-		# get the speed of the ego vehicle
-		ego_speed = traci.vehicle.getSpeed(self.ego)/c.RL_MAX_SPEED_LIMIT
+		self.y = traci.vehicle.getLanePosition(self.ego) / c.RL_SENSING_RADIUS
+
+		# Get the speed and acceleration of the ego vehicle
+		ego_speed = traci.vehicle.getSpeed(self.ego) / c.RL_MAX_SPEED_LIMIT
 		self.ego_speed = ego_speed
-		# get the acceleration of the ego vehicle
-		ego_accleration = traci.vehicle.getAccel(self.ego)/c.RL_ACC_RANGE
+		ego_accleration = traci.vehicle.getAccel(self.ego) / c.RL_ACC_RANGE
 		self.ego_acc = ego_accleration
+
+		# Get the leader of the ego vehicle
 		ego_leader = traci.vehicle.getLeader(self.ego)
-		#Return the leading vehicle id together with the distance.
-		ego_heading_angle = (traci.vehicle.getAngle(self.ego)-90.0)/c.HEADING_ANGLE
+		ego_heading_angle = (traci.vehicle.getAngle(self.ego) - 90.0) / c.HEADING_ANGLE
 		if ego_leader is not None:
 			leader_id, distance = ego_leader
 		else:
 			leader_id, distance = "", -1
-		l_speed = traci.vehicle.getSpeed(leader_id)/c.NON_RL_VEH_MAX_SPEED if leader_id != "" else 0.01/c.NON_RL_VEH_MAX_SPEED
-		l_acc = traci.vehicle.getAccel(leader_id)/c.RL_ACC_RANGE if leader_id != "" else -2.6/c.RL_ACC_RANGE
+
+		# Get the speed and acceleration of the leader vehicle
+		l_speed = traci.vehicle.getSpeed(
+			leader_id) / c.NON_RL_VEH_MAX_SPEED if leader_id != "" else 0.01 / c.NON_RL_VEH_MAX_SPEED
+		l_acc = traci.vehicle.getAccel(leader_id) / c.RL_ACC_RANGE if leader_id != "" else -2.6 / c.RL_ACC_RANGE
+
+		# Get the speed and acceleration of the follower vehicle
+		follower_id, rear_distance = traci.vehicle.getFollower(self.ego)
+		f_speed = traci.vehicle.getSpeed(
+			follower_id) / c.NON_RL_VEH_MAX_SPEED if follower_id != "" else 0.01 / c.NON_RL_VEH_MAX_SPEED
+		f_acc = traci.vehicle.getAccel(follower_id) / c.RL_ACC_RANGE if follower_id != "" else -2.6 / c.RL_ACC_RANGE
+
+
+
+		# Get the left and right leaders of the ego vehicle
 		left_leader, left_l_dis = self._getCloseLeader(traci.vehicle.getLeftLeaders(self.ego, blockingOnly=False))
-		#   """ getLeftLeaders(string, bool) -> list(pair(string, double))
-        # 		Convenience method, see getNeighbors()
-				#blockingOnly = False --> mode = 2
-        # """
-		#The parameter mode is a bitset (UBYTE), specifying the following:
-        # bit 1: query lateral direction (left:0, right:1)
-        # bit 2: query longitudinal direction (followers:0, leaders:1)
-        # bit 3: blocking (return all:0, return only blockers:1)
-		left_l_speed = traci.vehicle.getSpeed(left_leader)/c.NON_RL_VEH_MAX_SPEED if left_leader != "" else 0.01/c.NON_RL_VEH_MAX_SPEED
-		left_l_acc = traci.vehicle.getAccel(left_leader)/c.RL_ACC_RANGE if left_leader != "" else -2.6/c.RL_ACC_RANGE
-
+		left_l_speed = traci.vehicle.getSpeed(
+			left_leader) / c.NON_RL_VEH_MAX_SPEED if left_leader != "" else 0.01 / c.NON_RL_VEH_MAX_SPEED
+		left_l_acc = traci.vehicle.getAccel(
+			left_leader) / c.RL_ACC_RANGE if left_leader != "" else -2.6 / c.RL_ACC_RANGE
 		right_leader, right_l_dis = self._getCloseLeader(traci.vehicle.getRightLeaders(self.ego, blockingOnly=False))
-		right_l_speed = traci.vehicle.getSpeed(right_leader)/c.NON_RL_VEH_MAX_SPEED if right_leader != "" else 0.01/c.NON_RL_VEH_MAX_SPEED
-		right_l_acc = traci.vehicle.getAccel(right_leader)/c.RL_ACC_RANGE if right_leader != "" else -2.6/c.RL_ACC_RANGE
+		right_l_speed = traci.vehicle.getSpeed(
+			right_leader) / c.NON_RL_VEH_MAX_SPEED if right_leader != "" else 0.01 / c.NON_RL_VEH_MAX_SPEED
+		right_l_acc = traci.vehicle.getAccel(
+			right_leader) / c.RL_ACC_RANGE if right_leader != "" else -2.6 / c.RL_ACC_RANGE
 
-		states = [ego_speed, ego_accleration, ego_heading_angle, distance/c.RL_SENSING_RADIUS, l_speed, l_acc, left_l_dis/c.RL_SENSING_RADIUS, left_l_speed, left_l_acc,
-			right_l_dis/c.RL_SENSING_RADIUS, right_l_speed, right_l_acc]
+		# Get the speed and acceleration of the left and right followers of the ego vehicle
+		left_follower, left_f_dis = self._getCloseLeader(traci.vehicle.getLeftFollowers(self.ego, blockingOnly=False))
+		left_f_speed = traci.vehicle.getSpeed(
+			left_follower) / c.NON_RL_VEH_MAX_SPEED if left_follower != "" else 0.01 / c.NON_RL_VEH_MAX_SPEED
+		left_f_acc = traci.vehicle.getAccel(
+			left_follower) / c.RL_ACC_RANGE if left_follower != "" else -2.6 / c.RL_ACC_RANGE
+		right_follower, right_f_dis = self._getCloseLeader(traci.vehicle.getRightFollowers(self.ego, blockingOnly=False))
+		right_f_speed = traci.vehicle.getSpeed(
+			right_follower) / c.NON_RL_VEH_MAX_SPEED if right_follower != "" else 0.01 / c.NON_RL_VEH_MAX_SPEED
+		right_f_acc = traci.vehicle.getAccel(
+			right_follower) / c.RL_ACC_RANGE if right_follower != "" else -2.6 / c.RL_ACC_RANGE
+
+
+		# Get the density and mean speed of each lane
+		states = [ego_speed, ego_accleration, ego_heading_angle,
+				  distance / c.RL_SENSING_RADIUS, l_speed, l_acc,
+				  rear_distance / c.RL_SENSING_RADIUS, f_speed, f_acc,
+				  left_l_dis / c.RL_SENSING_RADIUS, left_l_speed, left_l_acc,
+				  right_l_dis / c.RL_SENSING_RADIUS, right_l_speed, right_l_acc,
+				  left_f_dis / c.RL_SENSING_RADIUS, left_f_speed, left_f_acc,
+				  right_f_dis / c.RL_SENSING_RADIUS, right_f_speed, right_f_acc
+				  ]
 		density, mean_speed = self._getLaneDensity()
 		for i in range(self.num_of_lanes):
-			states.append(density[i]/c.MAX_LANE_DENSITY)
-			states.append(mean_speed[i]/c.LANE_MEAN_SPEED)
+			states.append(density[i] / c.MAX_LANE_DENSITY)
+			states.append(mean_speed[i] / c.LANE_MEAN_SPEED)
 
+		# Return the observation as a numpy array
 		observations = np.array(states)
 		return observations
 
@@ -356,6 +454,9 @@ class SumoEnv(gym.Env):
 		返回：
 			None
 		"""
+		traci.vehicle.setSpeedMode(BV_id, 32)
+		traci.vehicle.setLaneChangeMode(BV_id, 1109)
+
 		current_lane_index = traci.vehicle.getLaneIndex(BV_id)
 		accel = traci.vehicle.getAcceleration(BV_id)
 		# print(f'Acceleration: {accel}')
@@ -582,6 +683,17 @@ class SumoEnv(gym.Env):
 			# with all views in a row being centered in the point specified by the previous level.
 			# One can use a background image for each view, but that image must be square.
 			#
+
+
+
+
+
+
+
+
+
+
+
 
 	def get_vehicles_info(self,ego_vehicle_id,direction):
 		"""
