@@ -1,87 +1,75 @@
-# Adversarial-Background-Vehicle-Model
-Certainly! Below is the `README.md` template in English, suitable for submission to Nature Research. You can customize it based on your specific software and requirements.
 
----
 
 # README
 
 ## 1. Project Overview
-`[Software Name]` is a software tool designed to `[describe the main functionality and purpose of the software]`. It processes `[type of data or application scenario]` and provides `[main output or results]`. This software is particularly useful for `[target user group or field]`.
-
----
+This repository contains the implementation of a reinforcement learning-based environment for training autonomous vehicles (AVs) using the SUMO traffic simulator. The environment includes both a rule-based driver model and a reinforcement learning-based adversarial background vehicle (BV) model to simulate realistic traffic interactions and enhance the robustness of AVs in mixed traffic scenarios.
 
 ## 2. System Requirements
 
 ### 2.1 Software Dependencies
-The following dependencies are required to run this software:
-- Python 3.8 or higher
-- NumPy 1.19.2
-- SciPy 1.5.2
-- TensorFlow 2.3.0
-- Other dependencies (if any): `[Specify additional dependencies here]`
+- Python: 3.8.20
+- NumPy: 1.24.3
+- SciPy: 1.10.1
+- PyTorch: 2.4.1 (CPU version)
+- Gym: 0.26.2
+- Matplotlib: 3.7.2
+- Pandas: 2.0.3
+- OpenCV-python: 4.10.0.84
+- SUMO: 1.21.0
+- Jupyter: 7.2.2 
 
 ### 2.2 Operating Systems
-The software has been tested on the following operating systems:
 - Windows 10
-- macOS Big Sur (11.0)
-- Ubuntu 20.04
 
 ### 2.3 Hardware Requirements
-The minimum hardware requirements for running this software are:
 - Modern CPU (Intel Core i5 or higher recommended)
-- 8 GB RAM (16 GB recommended for large datasets)
+- 16 GB RAM (32 GB recommended for large-scale simulations)
 - NVIDIA GPU with CUDA support (optional but recommended for faster performance)
-
----
 
 ## 3. Installation Guide
 
 ### 3.1 Installation Steps
-Follow these steps to install the software:
 1. **Install Python**: Ensure you have Python 3.8 or higher installed. You can download it from [Python's official website](https://www.python.org/downloads/).
-2. **Install dependencies**: Use pip to install the required dependencies:
+2. **Install Dependencies**: Use pip to install the required dependencies:
    ```bash
-   pip install numpy scipy tensorflow
+   pip install -r requirements.txt
    ```
-3. **Clone the repository**: Clone this repository to your local machine:
+3. **Install SUMO**: Follow the installation instructions on the [SUMO website](https://sumo.dlr.de/docs/Installing/index.html) to set up the SUMO traffic simulator.
+4. **Clone the Repository**: Clone this repository to your local machine:
    ```bash
-   git clone https://github.com/yourusername/yourrepository.git
-   cd yourrepository
+   git clone https://github.com/MoMingQimio/GAABV.git
+   cd GAABV
    ```
-4. **Install the software**: Run the following command to install the software:
+5. **Install the Package**: Run the following command to install the package:
    ```bash
-   python setup.py install
+   cd SUMO-RL-ENVIRONMENT
+   pip install -e.
    ```
-   (If you encounter any issues, please refer to the "Frequently Asked Questions" section below.)
 
 ### 3.2 Typical Installation Time
-The installation process typically takes **5-10 minutes** on a standard desktop computer, depending on your internet connection and system performance.
-
----
+The installation process typically takes **10-15 minutes** on a standard desktop computer, depending on your internet connection and system performance.
 
 ## 4. Demo
 
 ### 4.1 Dataset
-A small simulated dataset is included in the `data/` directory. You can use this dataset to run the demo.
+A small simulated urban traffic dataset is included in the `data/` directory. This dataset is used to demonstrate the functionality of the environment.
 
 ### 4.2 Running the Demo
-Follow these steps to run the demo:
-1. **Run the demo script**: Navigate to the `scripts/` directory and run the following command:
+1. **Navigate to the Scripts Directory**:
+   ```bash
+   cd scripts
+   ```
+2. **Run the Demo Script**:
    ```bash
    python demo_script.py
    ```
-2. **Expected output**: The demo will generate a result file named `output.txt` in the `results/` directory. The output should look like this:
-   ```
-   Result: [Expected output value]
-   ```
-3. **Expected runtime**: The demo typically takes **1-2 minutes** to run on a standard desktop computer.
-
----
+3. **Expected Output**: The demo will generate a result file named `output.txt` in the `results/` directory. The output should include metrics such as collision rate, average speed, and average absolute jerk.
+4. **Expected Runtime**: The demo typically takes **2-3 minutes** to run on a standard desktop computer.
 
 ## 5. Instructions for Use
 
 ### 5.1 Running on Your Data
-Follow these steps to run the software on your own dataset:
 1. Place your dataset in the `data/` directory.
 2. Modify the input parameters in the `config.py` file to match your dataset.
 3. Run the main script:
@@ -90,7 +78,7 @@ Follow these steps to run the software on your own dataset:
    ```
 4. The results will be saved in the `results/` directory.
 
-### 5.2 Optional: Reproducing Manuscript Results
+### 5.2 Reproducing Manuscript Results
 To reproduce the results presented in the manuscript, follow these steps:
 1. Download the full dataset from `[Dataset Link]`.
 2. Place the dataset in the `data/` directory.
@@ -100,12 +88,8 @@ To reproduce the results presented in the manuscript, follow these steps:
    ```
 4. The results will be saved in the `results/` directory and should match the results presented in the manuscript.
 
----
-
 ## 6. License Information
 This software is licensed under the **MIT License**. Users are free to use, copy, modify, and distribute the software for any purpose, provided that the license notice is retained. For the full license text, please see [MIT License](https://opensource.org/licenses/MIT).
-
----
 
 ## 7. Frequently Asked Questions
 
@@ -121,14 +105,10 @@ If the runtime is longer than expected, please try the following:
 - Reduce the size of the dataset to test performance.
 - If using a GPU, ensure that CUDA and the relevant drivers are correctly installed.
 
----
-
 ## 8. Issues and Support
 If you encounter any problems or have questions about the software, please contact us via the following methods:
 - Submit an [Issue](https://github.com/yourusername/yourrepository/issues) on the GitHub repository.
 - Send an email to [your.email@example.com](mailto:your.email@example.com).
-
----
 
 ## 9. Acknowledgements
 We would like to thank the following individuals and organizations for their contributions to this project:
