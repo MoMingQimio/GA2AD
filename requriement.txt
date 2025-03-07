@@ -1,0 +1,11 @@
+# requirements.txt
+python==3.8.20
+numpy==1.24.3
+scipy==1.10.1
+torch==2.4.1
+gym==0.26.2
+matplotlib==3.7.2
+pandas==2.0.3
+opencv-python==4.10.0.84
+eclipse-sumo==1.21.0
+jupyter==7.2.2
