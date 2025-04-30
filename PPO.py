@@ -92,7 +92,7 @@ class ActorCritic(nn.Module):
         #     dist = MultivariateNormal(action_mean, cov_mat)
         # else:
         action_probs = self.actor(state)
-        # 如果action_probs 中存在NAN
+        
         if torch.isnan(action_probs).any():
             action_probs = torch.rand_like(action_probs)
         # dist = Categorical(action_probs)
