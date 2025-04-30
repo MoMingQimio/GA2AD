@@ -56,7 +56,7 @@ def train(seed = str(0), print_flag = False):
     if has_continuous_action_space:
         action_dim = env.action_space.shape[0]
     else:
-        # 取出action_space中的两个维度
+        
         action_dim = [env.action_space.nvec[0], env.action_space.nvec[1]]
         # action_dim = env.action_space.n
 
@@ -298,7 +298,7 @@ def train(seed = str(0), print_flag = False):
         file_name = f"vehicle_data_{i_episode}.json"
         file_path = os.path.join(log_dir, file_name)
 
-        # 保存为 JSON 文件
+        
         try:
             with open(file_path, "w") as f1:
                 json.dump(data_records, f1, indent=4)
