@@ -40,7 +40,7 @@ The GA2AD (Generalized Adaptive Adversarial traning framework for Autonomous Dri
 3. **Install SUMO**: Follow the installation instructions on the [SUMO website](https://sumo.dlr.de/docs/Installing/index.html).
 4. **Clone the Repository**: Clone this repository to your local machine:
    ```bash
-   git clone https://github.com/MoMingQimio/GAABV.git
+   git clone https://github.com/MoMingQimio/GA2AD.git
    cd GAABV
    ```
 5. **Run Main Script**: Start training by running:
@@ -75,5 +75,5 @@ If you encounter any problems or have questions about the software, please conta
 - Send an email to ciyusheng@hit.edu.cn or ciliang.lc@gmail.com..
 
 ## 8. Acknowledgements
-This research was funded by the National Key R & D Program of China (2023YFB2603505), National Natural Science Foundation of China (No. 52402493), and Heilongjiang Provincial Natural Science Foundation of China (No.LH2023E055 and No. LH2024E059).
+This research was funded by the National Key R & D Program of China (2023YFB2603500), National Natural Science Foundation of China (No. 52402493), and Heilongjiang Provincial Natural Science Foundation of China (No.LH2023E055 and No. LH2024E059).
 
