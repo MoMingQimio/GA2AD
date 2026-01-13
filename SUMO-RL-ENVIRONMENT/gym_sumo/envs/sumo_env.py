@@ -120,7 +120,6 @@ class SumoEnv(gym.Env):
 
     @staticmethod
     def seed(seed = None):
-        #设置numpy随机种子
         np.random.seed(seed)
 
 
@@ -136,7 +135,7 @@ class SumoEnv(gym.Env):
         index = np.array(np.random.randint(0, self.num_of_lanes))
         obs = np.array(self.observation_space.sample())
 
-        #将index和obs连接在一起
+        
         obs =np.insert(obs, 0, index)
 
         #info = self._getInfo()
@@ -416,7 +415,7 @@ class SumoEnv(gym.Env):
 
         if done == False and traci.simulation.getTime() > 360:
             done = True
-        #写一个字典储存其他信息
+        
         other_information = {"BV_reward" : BV_reward,
                              # "surrounding_vehicles" : surrounding_vehicles,
                              # "excepted_risk" :  excepted_risk,
@@ -640,6 +639,7 @@ class SumoEnv(gym.Env):
         
     def snapshot(self,k,i):
         traci.gui.screenshot("View #0", "snap_shot_images/" + str(k)+"-"+str(i) + ".png")
+
 
 
 
