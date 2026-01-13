@@ -10,7 +10,6 @@ import time
 
 from gym_sumo.envs import env_config as c
 from gym_sumo.envs.RuleBasedDriverModel import DriverModel as RB
-#要使用该库，<SUMO_HOME>/tools 目录必须位于python加载路径上。 通常如下：
 if 'SUMO_HOME' in os.environ:
     tools = os.path.join(os.environ['SUMO_HOME'],'tools')
     sys.path.append(tools)
@@ -378,7 +377,7 @@ class SumoEnv(gym.Env):
             #     # traci.vehicle.setLaneChangeMode(Veh_id, 1109)
             #     vehicle_list = traci.vehicle.getIDList()
             #
-            #     # 检查 'slow_car.223' 是否存在于仿真中
+            #     
             #     if Veh_id in vehicle_list:
             #
             #         traci.vehicle.setSpeedMode(Veh_id, 0)
@@ -495,21 +494,9 @@ class SumoEnv(gym.Env):
                self.calc_safety_surrogate_metric(state['right_follower_speed'], state['ego_speed'],state['dis_to_right_follower'])]
 
         prob_norm = self.calc_risk_prob(SSM)
-        #print(prob_norm)
-        #写一个tuple，将概率和风险等级连接在一起
-        # lane_risk_prob = [] #中、左、右的风险概率
-        # for i in range(3):
-        #     P_S = prob_norm[0][2*i]*prob_norm[0][2*i+1]
-        #     P_D = 1- (1-prob_norm[2][2*i])*(1-prob_norm[2][2*i+1])
-        #     P_A = 1- P_D -P_S
-        #     prob = [P_S,P_A,P_D]
-        #     lane_risk_prob.append(prob)
-        # lane_risk_prob_ = np.array(lane_risk_prob).reshape(3,3)
-        # #求出目标车辆的风险概率
-        # p_s = lane_risk_prob_[0,0]*lane_risk_prob_[1,0]*lane_risk_prob_[2,0]
-        # p_d = 1- (1-lane_risk_prob_[0,2])*(1-lane_risk_prob_[1,2])*(1-lane_risk_prob_[2,2])
-        # p_a = 1 - p_s - p_d
-        # total_prob = np.array([p_s,p_a,p_d])
+        
+        
+   
 
 
 
@@ -524,9 +511,9 @@ class SumoEnv(gym.Env):
         total_prob = np.array([PS, PA, PD])
         #print(lane_risk_prob)
         #risk_level = np.argmax(prob_norm, axis=0)
-        excepted_risk = np.dot(np.array([0, 1, 2]),prob_norm) #求出每个背景车辆的期望风险
+        excepted_risk = np.dot(np.array([0, 1, 2]),prob_norm) 
 
-        total_risk = np.dot(np.array([0, 1, 2]),total_prob) #求出目标车辆的期望风险
+        total_risk = np.dot(np.array([0, 1, 2]),total_prob)
 
         return excepted_risk, total_risk
 
@@ -539,13 +526,10 @@ class SumoEnv(gym.Env):
         safety_prob = self.calc_prob(SSM, 'safety')
         risk_prob = np.array([safety_prob, attentive_prob, dangerous_prob])
         c_sums = risk_prob.sum(axis=0)
+        c_sums[c_sums == 0] = 1e-10 
 
-        # 然后除以行和，防止除以零，可以加上一个很小的数
-        c_sums[c_sums == 0] = 1e-10  # 防止除以0的情况
-
-        # 使用np.newaxis保持维度一致，以便进行广播除法
         prob_norm = risk_prob / c_sums[np.newaxis,: ]
-        #print(prob_norm)
+       
         #prob_norm = risk_prob / np.linalg.norm(risk_prob, axis=0, keepdims=True)
         return prob_norm
 
@@ -573,17 +557,11 @@ class SumoEnv(gym.Env):
         return np.array(prob)
 
     def calc_safety_surrogate_metric(self, ego_speed, leader_speed,dis_to_leader):
-            """
-            计算前车和后车的TTC
-            :param ego_speed: 车辆速度（m/s）
-            :param leader_speed: 前车速度（m/s）
-            :param dis_to_leader: 与前车的距离（m）
-            :return: TTC（秒）
-            """
+            
 
-            # 检查距离和速度
+           
             if ego_speed <= leader_speed or dis_to_leader <= 0:
-                return float('inf')  # 如果后车速度不大于前车，TTC为无穷大
+                return float('inf')  
 
             ttc = dis_to_leader / (ego_speed - leader_speed)
             #print(ttc)
@@ -635,8 +613,7 @@ class SumoEnv(gym.Env):
 
 
     def record(self):
-        # 写一个字典储信息，包括自动驾驶车辆与6辆背景车辆的位置，速度，加速度的信息
-        #position分为lane id 和 lane position,以及横向位置
+       
 
         if self._isEgoRunning() == False:
             return
@@ -660,11 +637,10 @@ class SumoEnv(gym.Env):
                                                       'adversarial': adversarial}
         return info
 
-        # # 写一个列表储存这些字典
-        # # 写一个函数，将这些信息写入csv文件
-        # pass
+        
     def snapshot(self,k,i):
         traci.gui.screenshot("View #0", "snap_shot_images/" + str(k)+"-"+str(i) + ".png")
+
 
 
 
