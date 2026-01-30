@@ -36,7 +36,7 @@ def train(seed = str(0), print_flag = False):
     max_training_timesteps = int(3e4)  # break training loop if timeteps > max_training_timesteps
     save_model_freq = int(1e2)   # save model frequency (in num timesteps)
 
-    action_std = 0.6  # starting std for action distribution (Multivariate Normal)这个参数在离散动作空间中没用
+    action_std = 0.6  # starting std for action distribution
 
     update_timestep = 1000 # update policy every n timesteps
     K_epochs = 80  # update policy for K epochs in one PPO update
@@ -194,7 +194,7 @@ def train(seed = str(0), print_flag = False):
 
 
             step_data = env.record()
-            # step_data 加入t
+            # step_data 
             step_data["time"] = t
             data_records.append(step_data)
 
@@ -363,3 +363,4 @@ if __name__ == '__main__':
 #
 # if __name__ == '__main__':
 # 	main()
+
