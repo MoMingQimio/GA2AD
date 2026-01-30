@@ -47,21 +47,21 @@ class DriverModel:
         """
         # current_time = traci.simulation.getTime()
         # if current_time - self.last_decision_time < self.action_step_length:
-        #     return 0  # 在非决策时间步中，保持不变的加速度
+        #     return 0  
         #
-        #     # 更新最后决策时间
+        #     
         # self.last_decision_time = current_time
         #
-        # # 计算反应时间后的速度和距离
-        # effective_v = v  # 在此版本中，假设当前速度在反应时间内不变
-        # effective_surrounding_v = surrounding_v  # 假设前车速度也保持不变
-        # effective_s = s - effective_surrounding_v * self.tau  # 修正与前车的距离，考虑反应时间
+        # 
+        # effective_v = v 
+        # effective_surrounding_v = surrounding_v  
+        # effective_s = s - effective_surrounding_v * self.tau  
         #
         # delta_v = effective_v - effective_surrounding_v
-        # # 计算期望安全距离 s_star
+        # 
         # s_star = self.s_0 + max(0, self.T * effective_v + (effective_v * delta_v) / (2 * math.sqrt(self.a * self.b)))
         #
-        # # 计算并返回加速度
+        # 
         # return self.a * (1 - math.pow(effective_v / self.v_0, self.delta) - math.pow(s_star / effective_s, 2))
 
         delta_v = v - surrounding_v
@@ -167,7 +167,7 @@ class DriverModel:
         #calculate the acceleration of the ego vehicle
         action_space = np.arange(-c.RL_DCE_RANGE, c.RL_ACC_RANGE+c.ACC_INTERVAL, c.ACC_INTERVAL)
         ego_acc = self.calc_acceleration(state["ego_speed"], state["leader_speed"], state["ego_dis_to_leader"])
-        #写一个映射，将ego_acc映射到动作空间,这里有actions include 31 discrete longitudinal accelerations ([−4, 2] with 0.2 m s−2 discrete resolution)
+       
         if ego_acc < -c.RL_DCE_RANGE:
             index = 0
         elif ego_acc > c.RL_ACC_RANGE:
@@ -196,6 +196,7 @@ class DriverModel:
             action_index = index
 
         return action_index
+
 
 
 
