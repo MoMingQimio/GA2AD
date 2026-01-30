@@ -58,7 +58,7 @@ def creat_observation():
                                  c.RL_MAX_SPEED_LIMIT, c.MAX_LANE_DENSITY
                                  ])
 
-    #obs = spaces.Tuple([spaces.Discrete(c.NUM_OF_LANES),spaces.Box(low=state_space_low,high=state_space_high,dtype=np.float64)])不改了，不太对
+    
     obs = spaces.Box(low=state_space_low,high=state_space_high,dtype=np.float64)
     return obs
 
@@ -639,6 +639,7 @@ class SumoEnv(gym.Env):
         
     def snapshot(self,k,i):
         traci.gui.screenshot("View #0", "snap_shot_images/" + str(k)+"-"+str(i) + ".png")
+
 
 
 
