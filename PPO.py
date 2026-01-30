@@ -135,7 +135,7 @@ class ActorCritic(nn.Module):
 
         state = torch.tensor(state, dtype=torch.float32, device=device).unsqueeze(0)
         action_probs = self.actor(state)
-        #如果action_probs 中存在NAN
+       
         if torch.isnan(action_probs).any():
             action_probs = torch.rand_like(action_probs)
         action_probs1 = action_probs[:,:, :self.action_dim[0]]
@@ -306,5 +306,6 @@ class PPO:
         
         
        
+
 
 
