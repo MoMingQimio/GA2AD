@@ -5,7 +5,7 @@
 # README
 
 ## 1. Project Overview
-The GA2AD (Generalized Adaptive Adversarial traning framework for Autonomous Driving) is designed to enhance the robustness and safety of autonomous vehicles (AVs) in mixed traffic environments by creating adaptive risky scenarios through the adjustment of adversarial maneuvers of Background Vehicles (BVs). This framework combines reinforcement learning (RL)-based and rule-based components, incorporating hybrid risk field-based inverse risk assessment and activation function modules to dynamically adjust the intensity of adversarial actions. The GAABV framework is capable of reducing collision rates by 55-70% and improving average absolute jerk by up to 35%, while maintaining operational efficiency with minimal reductions in average speed.
+The GA2AD (Generalized Adaptive Adversarial traning framework for Autonomous Driving) is designed to enhance the robustness and safety of autonomous vehicles (AVs) in mixed traffic environments by creating adaptive risky scenarios through the adjustment of adversarial maneuvers of Background Vehicles (BVs). This framework combines reinforcement learning (RL)-based and rule-based components, incorporating hybrid risk field-based inverse risk assessment and activation function modules to dynamically adjust the intensity of adversarial actions. The GAABV framework is capable of reducing collision rates by 55-70%, while maintaining operational efficiency with minimal reductions in average speed.
 
 ## 2. System Requirements
 
@@ -75,5 +75,6 @@ If you encounter any problems or have questions about the software, please conta
 - Send an email to ciyusheng@hit.edu.cn or ciliang.lc@gmail.com..
 
 ## 8. Acknowledgements
-This research was funded by the National Key R & D Program of China (2023YFB2603500), National Natural Science Foundation of China (No. 52402493), and Heilongjiang Provincial Natural Science Foundation of China (No.LH2023E055 and No. LH2024E059).
+
+This research was funded by the National Key R & D Program of China (No. 2023YFB2603500), National Natural Science Foundation of China (No. 52402493, No. 72525009 and No. 72431009), and Heilongjiang Provincial Natural Science Foundation of China (No. LH2023E055, No. LH2024E059 and No. PL2025E077)
 
